@@ -419,7 +419,8 @@ for slug, rel, ab in [('faqs', '../#faq', '#faq'), ('services', '../#services', 
 write('404.html', notfound())
 write('.nojekyll', '')
 # Preview stays out of search until launch: switch to "Allow: /" plus the Sitemap line at go-live.
-write('robots.txt', 'User-agent: *\nDisallow: /\n')
+write('robots.txt', 'User-agent: *\nAllow: /\n\nSitemap: https://obsessionmarketing.com/sitemap.xml\n')
+write('CNAME', 'obsessionmarketing.com\n')
 urls = ['', 'book-a-marketing-call/', 'wpautoterms/privacy-policy/', 'wpautoterms/terms-and-conditions/']
 write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + ''.join(f'  <url><loc>{SITE}/{u}</loc><lastmod>2026-11-24</lastmod></url>\n' for u in urls) + '</urlset>\n')
