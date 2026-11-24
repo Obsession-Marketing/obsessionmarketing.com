@@ -1,0 +1,42 @@
+P|Last updated: February 9, 2026
+P|Please read these Terms of Use (“Terms”, “Terms of Use”) carefully before using the https://obsessionmarketing.com website (the “Service”) operated by Custom Websites, Funnels, and CRM (“us”, “we”, or “our”).
+P|Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.
+P|By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.
+H|Intellectual Property
+P|The Service and its original content, features and functionality are and will remain the exclusive property of Custom Websites, Funnels, and CRM and its licensors.
+H|Links To Other Web Sites
+P|Our Service may contain links to third-party web sites or services that are not owned or controlled by Custom Websites, Funnels, and CRM.
+P|Custom Websites, Funnels, and CRM has no control over, and assumes no responsibility for, the content, privacy policies, or practices of any third party web sites or services. You further acknowledge and agree that Custom Websites, Funnels, and CRM shall not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods or services available on or through any such web sites or services.
+P|We strongly advise you to read the terms and conditions and privacy policies of any third-party web sites or services that you visit.
+H|Termination
+P|We may terminate or suspend access to our Service immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.
+P|All provisions of the Terms which by their nature should survive termination shall survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity and limitations of liability.
+H|Disclaimer
+P|Your use of the Service is at your sole risk. The Service is provided on an “AS IS” and “AS AVAILABLE” basis. The Service is provided without warranties of any kind, whether express or implied, including, but not limited to, implied warranties of merchantability, fitness for a particular purpose, non-infringement or course of performance.
+H|Governing Law
+P|These Terms shall be governed and construed in accordance with the laws of United States without regard to its conflict of law provisions.
+P|Our failure to enforce any right or provision of these Terms will not be considered a waiver of those rights. If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect. These Terms constitute the entire agreement between us regarding our Service, and supersede and replace any prior agreements we might have between us regarding the Service.
+H|Changes
+P|We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material we will try to provide at least 30 days notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion.
+P|By continuing to access or use our Service after those revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, please stop using the Service.
+H|Terms &amp; Conditions
+S|SMS Use Cases
+P|Elite Ventures DBA Obsession Marketing uses SMS messaging strictly for <strong>transactional purposes</strong>, including but not limited to:
+L|Account notifications
+L|Service-related updates
+L|Operational or administrative messages
+P|We do not send promotional SMS messages unless explicitly authorized by the user.
+S|Opt-Out Instructions
+P|You may opt out of SMS communications at any time by replying <strong>STOP</strong> to any message. After opting out, you will no longer receive SMS messages unless you re-enroll.
+S|Customer Support
+P|For assistance, please contact:
+L|<strong>Email:</strong> <a href="mailto:solutions@obsessionmarketing.com">solutions@obsessionmarketing.com</a>
+L|<strong>Phone:</strong> <a href="tel:+18336561801">833-656-1801</a>
+S|Message &amp; Data Rates
+P|Message and data rates may apply depending on your mobile carrier and plan.
+S|Carrier Liability Disclaimer
+P|Mobile carriers are not responsible for delayed or undelivered messages.
+S|Age Restriction
+P|Our SMS messaging services are intended for individuals <strong>18 years of age or older</strong>. By opting in, you confirm that you meet this age requirement.
+H|Contact Us
+P|If you have any questions about these Terms, please contact us.

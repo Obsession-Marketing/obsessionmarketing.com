@@ -180,6 +180,8 @@ footer{border-top:1px solid var(--line);padding:56px 0 calc(48px + env(safe-area
 @media (max-width:720px){
   .mbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:55;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line)}
   .mbar .btn{flex:1}
+  /* leave room on the right for the GoHighLevel chat bubble */
+  .mbar:has(~ chat-widget){padding-right:calc(84px + env(safe-area-inset-right,0px))}
   footer{padding-bottom:calc(120px + env(safe-area-inset-bottom,0px))}
   }
 

@@ -1,0 +1,43 @@
+P|Last updated: February 9, 2026
+P|Custom Websites, Funnels, and CRM (“us”, “we”, or “our”) operates the Custom Websites, Funnels, and CRM website (the “Service”).
+P|This page informs you of our policies regarding the collection, use and disclosure of Personal Information when you use our Service.
+P|We will not use or share your information with anyone except as described in this Privacy Policy.
+P|We use your Personal Information for providing and improving the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions, accessible at https://obsessionmarketing.com
+H|Information Collection And Use
+P|While using our Service, we may ask you to provide us with certain personally identifiable information that can be used to contact or identify you. Personally identifiable information (“Personal Information”) may include, but is not limited to:
+L|Name
+L|Email address
+L|Telephone number
+H|Log Data
+P|We collect information that your browser sends whenever you visit our Service (“Log Data”). This Log Data may include information such as your computer’s Internet Protocol (“IP”) address, browser type, browser version, the pages of our Service that you visit, the time and date of your visit, the time spent on those pages and other statistics.
+H|Cookies
+P|Cookies are files with small amount of data, which may include an anonymous unique identifier. Cookies are sent to your browser from a web site and stored on your computer’s hard drive.
+P|We use “cookies” to collect information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of our Service.
+H|Service Providers
+P|We may employ third party companies and individuals to facilitate our Service, to provide the Service on our behalf, to perform Service-related services or to assist us in analyzing how our Service is used.
+P|These third parties have access to your Personal Information only to perform these tasks on our behalf and are obligated not to disclose or use it for any other purpose.
+H|Security
+P|The security of your Personal Information is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Information, we cannot guarantee its absolute security.
+H|Links To Other Sites
+P|Our Service may contain links to other sites that are not operated by us. If you click on a third party link, you will be directed to that third party’s site. We strongly advise you to review the Privacy Policy of every site you visit.
+P|We have no control over, and assume no responsibility for the content, privacy policies or practices of any third party sites or services.
+H|Children’s Privacy
+P|Our Service does not address anyone under the age of 18 (“Children”).
+P|We do not knowingly collect personally identifiable information from children under 18. If you are a parent or guardian and you are aware that your child has provided us with Personal Information, please contact us. If we discover that a child under 18 has provided us with Personal Information, we will delete such information from our servers immediately.
+H|Compliance With Laws
+P|We will disclose your Personal Information where required to do so by law or subpoena.
+H|Changes To This Privacy Policy
+P|We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
+P|You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.
+S|SMS Consent and Use
+P|We collect SMS consent when users voluntarily opt in through our website forms. Consent is obtained via a required checkbox authorizing Elite Ventures DBA Obsession Marketing to send SMS messages to the provided phone number.
+P|By opting in, users agree to receive SMS messages related to transactional communications, service updates, and account-related notifications. SMS consent is not a condition of purchase.
+S|User Data Rights
+P|Users have the right to access, update, or request deletion of their personal information at any time.
+P|To request access to or deletion of your data, please contact us at: <strong><a href="mailto:solutions@obsessionmarketing.com">solutions@obsessionmarketing.com</a></strong>
+P|We will respond to verified requests within a reasonable timeframe and in accordance with applicable laws.
+S|Mobile Information Sharing
+P|We respect your privacy.
+P|<strong>No mobile information will be shared, sold, or disclosed to third parties or affiliates for marketing or promotional purposes.</strong> All other categories of data exclude text messaging originator opt-in data and consent. This information will not be shared with any third parties.
+H|Contact Us
+P|If you have any questions about this Privacy Policy, please contact us.
