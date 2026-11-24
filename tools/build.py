@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Builds the static obsessionmarketing.com site into OUT (plain HTML, relative links)."""
-import html, json, os, sys
+import datetime, html, json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.dirname(HERE)
@@ -14,7 +14,10 @@ FB = 'https://www.facebook.com/obsessionmarketing/'
 IG = 'https://instagram.com/obsessionmarketing'
 FORM_ID = '8G4rHL1jZbVlZopkzWQj'  # GoHighLevel "Book A Call with Obsession Marketing"
 CHAT_LOCATION_ID = 'aLQPWyAgpzpWVsa0xm9D'  # GoHighLevel location whose chat widget shows (the account on chris@obsessionmarketing.com); empty hides it
-VER = '2'
+VER = '3'
+# Blog: posts live in posts/*.md (copy posts/_template.md). While BLOG_PUBLIC is False the blog is hidden:
+# no menu or footer link, not in the sitemap, no feed, and every blog page is marked noindex.
+BLOG_PUBLIC = False
 
 
 def head(title, desc, path, root, noindex=False, extra=''):
@@ -59,6 +62,7 @@ def header(root, home=False):
       <li><a href="{a}#work">Work</a></li>
       <li><a href="{a}#services">Services</a></li>
       <li><a href="{a}#how">How it works</a></li>
+      {f'<li><a href="{root}blog/">Blog</a></li>' if BLOG_PUBLIC else ''}
       <li><a href="{LOGIN}">Client login</a></li>
     </ul>
     <a class="btn btn-gold" href="{AUDIT}">Free audit</a>
@@ -80,7 +84,7 @@ def footer(root):
     <a class="brand" href="{root}" aria-label="Obsession Marketing home">{logo(root)}</a>
     <a class="phone" href="{TEL}">{PHONE}</a>
     <div class="row"><a href="mailto:{EMAIL}">{EMAIL}</a><span>St. George, Utah</span></div>
-    <div class="row"><a href="{LOGIN}">Client login</a><a href="{root}book-a-marketing-call/">Book a call</a><a href="{FB}" rel="noopener">Facebook</a><a href="{IG}" rel="noopener">Instagram</a></div>
+    <div class="row"><a href="{LOGIN}">Client login</a><a href="{root}book-a-marketing-call/">Book a call</a>{f'<a href="{root}blog/">Blog</a>' if BLOG_PUBLIC else ''}<a href="{FB}" rel="noopener">Facebook</a><a href="{IG}" rel="noopener">Instagram</a></div>
     <div class="row"><a href="{root}wpautoterms/privacy-policy/">Privacy Policy</a><a href="{root}wpautoterms/terms-and-conditions/">Terms &amp; Conditions</a></div>
     <small>&copy; 2026 Obsession Marketing</small>
   </div>
@@ -400,6 +404,153 @@ def notfound():
     return head('Page not found | Obsession Marketing', 'Page not found.', '404.html', r, noindex=True) + header(r) + body + footer(r)
 
 
+# ---------- Blog ----------
+POSTS_DIR = os.path.join(os.path.dirname(HERE), 'posts')
+
+
+def inline(t):
+    t = html.escape(t, quote=False)
+    t = re.sub(r'!\[([^\]]*)\]\(([^)\s]+)\)', lambda m: f'<img src="{m.group(2)}" alt="{html.escape(m.group(1))}" loading="lazy" decoding="async">', t)
+    t = re.sub(r'\[([^\]]+)\]\(([^)\s]+)\)', lambda m: f'<a href="{m.group(2)}">{m.group(1)}</a>', t)
+    t = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', t)
+    t = re.sub(r'(?<![*\w])\*(?!\s)(.+?)(?<!\s)\*(?!\w)', r'<em>\1</em>', t)
+    return t
+
+
+def md(text):
+    """Small Markdown: ## / ### headings, paragraphs, - and 1. lists, > quotes, images, links, bold, italic."""
+    out, para, lst = [], [], None
+
+    def flush():
+        nonlocal para, lst
+        if para:
+            out.append('<p>' + inline(' '.join(para)) + '</p>')
+            para = []
+        if lst:
+            out.append(f'<{lst[0]}>' + ''.join(f'<li>{inline(i)}</li>' for i in lst[1]) + f'</{lst[0]}>')
+            lst = None
+
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            flush()
+            continue
+        m = re.match(r'(#{2,4})\s+(.*)', line)
+        if m:
+            flush()
+            n = len(m.group(1))
+            out.append(f'<h{n}>{inline(m.group(2))}</h{n}>')
+            continue
+        m = re.match(r'(?:[-*]|(\d+)\.)\s+(.*)', line)
+        if m:
+            kind = 'ol' if m.group(1) else 'ul'
+            if para or (lst and lst[0] != kind):
+                flush()
+            if not lst:
+                lst = (kind, [])
+            lst[1].append(m.group(2))
+            continue
+        if line.startswith('>'):
+            flush()
+            out.append('<blockquote><p>' + inline(line.lstrip('> ')) + '</p></blockquote>')
+            continue
+        if lst:
+            flush()
+        para.append(line)
+    flush()
+    return '\n'.join(out)
+
+
+def load_posts():
+    posts = []
+    if not os.path.isdir(POSTS_DIR):
+        return posts
+    for name in sorted(os.listdir(POSTS_DIR)):
+        if not name.endswith('.md') or name.startswith('_'):
+            continue
+        raw = open(os.path.join(POSTS_DIR, name), encoding='utf-8').read()
+        meta, body = {}, raw
+        if raw.startswith('---'):
+            _, fm, body = raw.split('---', 2)
+            for line in fm.strip().splitlines():
+                if ':' in line:
+                    k, v = line.split(':', 1)
+                    meta[k.strip().lower()] = v.strip().strip('"')
+        if meta.get('draft', '').lower() == 'true':
+            continue
+        slug = meta.get('slug') or re.sub(r'^\d{4}-\d{2}-\d{2}-', '', name[:-3])
+        posts.append({'slug': slug, 'title': meta.get('title', slug.replace('-', ' ').title()),
+                      'date': meta.get('date', ''), 'description': meta.get('description', ''),
+                      'image': meta.get('image', ''), 'html': md(body)})
+    posts.sort(key=lambda p: p['date'], reverse=True)
+    return posts
+
+
+def nice_date(d):
+    try:
+        x = datetime.date.fromisoformat(d)
+        return f'{x:%B} {x.day}, {x.year}'
+    except ValueError:
+        return d
+
+
+def post_card(p):
+    desc = f"<p>{html.escape(p['description'])}</p>" if p['description'] else ''
+    return (f'      <a class="post-card" href="{p["slug"]}/">\n'
+            f'        <time datetime="{p["date"]}">{nice_date(p["date"])}</time>\n'
+            f'        <h2>{html.escape(p["title"])}</h2>\n'
+            f'        {desc}\n'
+            f'        <span class="more">Read the post</span>\n'
+            f'      </a>\n')
+
+
+def blog_index(posts):
+    r = '../'
+    if posts:
+        listing = '    <div class="post-list">\n' + ''.join(post_card(p) for p in posts) + '    </div>\n'
+    else:
+        listing = '    <p class="center empty">New posts are on the way.</p>\n'
+    body = (f'<main id="top" class="page">\n  <div class="wrap">\n'
+            f'    <div class="head center"><h1>Blog</h1>\n'
+            f'    <p>Plain-English ideas for getting more customers with less marketing to manage.</p></div>\n'
+            f'{listing}'
+            f'    <div class="ctas center blog-cta"><a class="btn btn-gold" href="{AUDIT}">Run my free AI audit</a></div>\n'
+            f'  </div>\n</main>\n')
+    return (head('Blog | Obsession Marketing', 'Marketing ideas for local businesses from Obsession Marketing.',
+                 'blog/', r, noindex=not BLOG_PUBLIC) + header(r) + body + footer(r))
+
+
+def blog_post(p):
+    r = '../../'
+    img = p['image']
+    if img and not img.startswith('http'):
+        img = f'{SITE}/{img.lstrip("/")}'
+    extra = f'<meta property="article:published_time" content="{p["date"]}">\n'
+    if img:
+        extra += f'<meta property="og:image" content="{img}">\n'
+    body = (f'<main id="top" class="page">\n  <article class="wrap post">\n'
+            f'    <a class="back" href="../">All posts</a>\n'
+            f'    <h1>{html.escape(p["title"])}</h1>\n'
+            f'    <time datetime="{p["date"]}">{nice_date(p["date"])}</time>\n'
+            f'{p["html"]}\n'
+            f'    <div class="post-cta">\n'
+            f'      <h2>Want more customers from your website?</h2>\n'
+            f'      <p>Run a free AI audit and see what to fix first.</p>\n'
+            f'      <a class="btn btn-gold" href="{AUDIT}">Run my free AI audit</a>\n'
+            f'    </div>\n  </article>\n</main>\n')
+    return (head(f'{p["title"]} | Obsession Marketing', p['description'] or p['title'], f'blog/{p["slug"]}/', r,
+                 noindex=not BLOG_PUBLIC, extra=extra) + header(r) + body + footer(r))
+
+
+def blog_feed(posts):
+    items = ''.join(f'  <item><title>{html.escape(p["title"])}</title><link>{SITE}/blog/{p["slug"]}/</link>'
+                    f'<guid>{SITE}/blog/{p["slug"]}/</guid><description>{html.escape(p["description"])}</description></item>\n'
+                    for p in posts)
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel>\n'
+            f'  <title>Obsession Marketing Blog</title><link>{SITE}/blog/</link>\n'
+            '  <description>Marketing ideas for local businesses.</description>\n' + items + '</channel></rss>\n')
+
+
 def write(rel, text):
     p = os.path.join(OUT, rel)
     os.makedirs(os.path.dirname(p), exist_ok=True)
@@ -416,12 +567,20 @@ for slug, rel, ab in [('faqs', '../#faq', '#faq'), ('services', '../#services', 
                       ('about', '../', ''), ('new', '../', ''), ('sample-page', '../', ''),
                       ('payment-confirmation', '../', ''), ('payment-failed', '../', '')]:
     write(f'{slug}/index.html', redirect(rel, ab))
+POSTS = load_posts()
+write('blog/index.html', blog_index(POSTS))
+for p in POSTS:
+    write(f"blog/{p['slug']}/index.html", blog_post(p))
+if BLOG_PUBLIC:
+    write('blog/feed.xml', blog_feed(POSTS))
 write('404.html', notfound())
 write('.nojekyll', '')
 # Preview stays out of search until launch: switch to "Allow: /" plus the Sitemap line at go-live.
 write('robots.txt', 'User-agent: *\nAllow: /\n\nSitemap: https://obsessionmarketing.com/sitemap.xml\n')
 write('CNAME', 'obsessionmarketing.com\n')
 urls = ['', 'book-a-marketing-call/', 'wpautoterms/privacy-policy/', 'wpautoterms/terms-and-conditions/']
+if BLOG_PUBLIC:
+    urls += ['blog/'] + [f"blog/{p['slug']}/" for p in POSTS]
 write('sitemap.xml', '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
       + ''.join(f'  <url><loc>{SITE}/{u}</loc><lastmod>2026-11-24</lastmod></url>\n' for u in urls) + '</urlset>\n')
 print('built', OUT)
